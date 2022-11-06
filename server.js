@@ -2,23 +2,20 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
+// import routes
+const authRoute = require("./routes/auth")
+
 // commenting
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.send("to do list server");
 });
 
-app.post("/name", (req, res) => {
-    if(req.body.name) {
-        return res.json({name: req.body.name});
-    } else {
-        return res.status(400).json({error: "no name provided"});
-    }
-});
+app.use("/api/auth", authRoute);
 
 mongoose
     .connect(process.env.MONGO_URI)
